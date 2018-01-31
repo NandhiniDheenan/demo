@@ -1,0 +1,160 @@
+
+
+<div id="canvas-holder" style="width:50%">
+<canvas id="myChart3" width="400" height="400"></canvas>
+</div>
+<button id="pre">previous</button>
+<button id="next">next</button>
+<script>
+var curentpage=1;
+var grapvolta;
+var graphtimear;
+var graphcur;
+var graphcur2;
+var graphcur3;
+var ctx ;
+var myChart3 ;
+$(function(){
+      
+     
+      drawgraph();
+      initializegraphdata();
+      
+      window.myChart3.update();
+      $("#next").on("click",function(){
+            curentpage=curentpage+100;
+            if(curentpage>=voltary.length){
+                  curentpage=curentpage-100;
+            }
+            //console.log(curentpage);
+            updategraph();
+      });
+      $("#pre").on("click",function(){
+            curentpage=curentpage-100;
+            if(curentpage<=0){
+                  curentpage=1;
+            }
+            //console.log(curentpage);
+            updategraph();
+      });
+});
+function initializegraphdata(){
+      myChart3.config.data.datasets[0].data=voltary.slice(curentpage,curentpage+100);
+      myChart3.config.data.labels=timearr.slice(curentpage,curentpage+100);
+      myChart3.config.data.datasets[1].data=curvl1.slice(curentpage,curentpage+100);
+      myChart3.config.data.datasets[2].data=curvl2.slice(curentpage,curentpage+100);
+      myChart3.config.data.datasets[3].data=curvl3.slice(curentpage,curentpage+100);
+      window.myChart3.update();
+
+}
+function updategraph(){
+      //myChart3.destroy();
+      //console.log(myChart3.config.data.labels);
+      //console.log(myChart3.config.data.datasets[0].data);
+      //var temp=voltary.slice(curentpage,10);
+      //console.log(voltary.slice(curentpage,curentpage+100));
+      //console.log(voltary.slice(curentpage,curentpage+100));
+      myChart3.config.data.datasets[0].data=voltary.slice(curentpage,curentpage+100);
+      myChart3.config.data.labels=timearr.slice(curentpage,curentpage+100);
+      myChart3.config.data.datasets[1].data=curvl1.slice(curentpage,curentpage+100);
+      myChart3.config.data.datasets[2].data=curvl2.slice(curentpage,curentpage+100);
+      myChart3.config.data.datasets[3].data=curvl3.slice(curentpage,curentpage+100);
+      window.myChart3.update();
+}
+
+var voltary=<%= raw(@voltagearray) %>;
+var timearr=<%= raw(@timearray) %>;
+var curvl1=<%= raw(@curvl1) %>;
+var curvl2=<%= raw(@curvl2) %>;
+var curvl3=<%= raw(@curvl3) %>;
+//console.log(ctx);
+
+function drawgraph(){
+       ctx = document.getElementById("myChart3").getContext('2d');
+       myChart3 = new Chart(ctx, {
+          type: 'line',
+      
+          data: {
+      <% timeline = []
+              @towerems1.each do |item|
+                timeline << item.vol   
+             end
+       %>
+             // labels: ["22 june 2017", "23 june 2017", "24 june 2017", "25 june 2017", "26 june 2017", "27 june 2017"],
+      
+      labels: [], 
+      
+              datasets: [{
+                  label: 'voltage',
+      yAxisID: 'A',
+         fill: false,
+         backgroundColor: "rgba(75,192,192,0.4)",
+            borderColor: "rgba(75,192,192,5)",
+      data: [],
+              },
+      {
+      label: 'current',
+      yAxisID: 'B',
+            fill: false,
+      lineTension: 0.3,
+            backgroundColor: "rgba(80,30,30,0.4)",
+            borderColor: "rgba(80,30,30,5)",
+      data: [],     
+             
+              },
+      {
+      label: 'current2',
+      yAxisID: 'B',
+            fill: false,
+      lineTension: 0.3,
+            backgroundColor: "rgba(0,120,90,0.4)",
+            borderColor: "rgba(0,120,90,5)",
+      
+      data: curvl2,     
+             
+              },
+      {
+      label: 'current3',
+      yAxisID: 'B',
+            fill: false,
+      lineTension: 0.1,
+            backgroundColor: "rgba(152,10,170,0.4)",
+            borderColor: "rgba(152,10,170,5)",
+       pointColor : "rgba(60,91,87,1)",
+      data: [],     
+             
+              }
+      ]
+          },
+      
+          options: {
+              scales: {
+      xAxis: [{
+                      type: 'time',
+                      time: {
+                          unit: 'day',
+                      }                 
+                  }],
+      
+                  yAxes: [{
+              id: 'A',
+              type: 'linear',
+              position: 'left',
+      ticks: {
+                      beginAtZero: true
+                  }
+            }, {
+              id: 'B',
+              type: 'linear',
+              position: 'right',
+      ticks: {
+                      beginAtZero: true
+                  }
+              
+            }]
+              }
+          }
+      });
+}
+</script>
+

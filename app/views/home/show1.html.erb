@@ -1,0 +1,94 @@
+<html>
+
+<div id="canvas-holder" style="width:50%">
+    <canvas id="myChart3" width="400" height="400"></canvas>
+</div>
+<script>
+
+var ctx = document.getElementById("myChart3").getContext('2d');
+var myChart3 = new Chart(ctx, {
+    type: 'line',
+
+    data: {
+<% timeline = []
+        @towerems.each do |item|
+          timeline << item['updated_time']   
+       end
+ %>
+       // labels: ["22 june 2017", "23 june 2017", "24 june 2017", "25 june 2017", "26 june 2017", "27 june 2017"],
+
+labels: <%= raw(@towerems.map(&:updated_time)) %>, 
+
+        datasets: [{
+            label: 'voltage',
+yAxisID: 'A',
+   fill: false,
+   backgroundColor: "rgba(75,192,192,0.4)",
+      borderColor: "rgba(75,192,192,5)",
+data: <%= raw(@towerems.map(&:vol)) %>,
+        },
+{
+label: 'current',
+yAxisID: 'B',
+      fill: false,
+lineTension: 0.3,
+      backgroundColor: "rgba(80,30,30,0.4)",
+      borderColor: "rgba(80,30,30,5)",
+data: <%= raw(@towerems.map(&:cur_ch1)) %>,     
+       
+        },
+{
+label: 'current2',
+yAxisID: 'B',
+      fill: false,
+lineTension: 0.3,
+      backgroundColor: "rgba(0,120,90,0.4)",
+      borderColor: "rgba(0,120,90,5)",
+
+data: <%= raw(@towerems.map(&:cur_ch2)) %>,     
+       
+        },
+{
+label: 'current3',
+yAxisID: 'B',
+      fill: false,
+lineTension: 0.1,
+      backgroundColor: "rgba(152,10,170,0.4)",
+      borderColor: "rgba(152,10,170,5)",
+ pointColor : "rgba(60,91,87,1)",
+data: <%= raw(@towerems.map(&:cur_ch3)) %>,     
+       
+        }
+]
+    },
+
+    options: {
+        scales: {
+xAxis: [{
+                type: 'time',
+                time: {
+                    unit: 'day',
+                }                 
+            }],
+
+            yAxes: [{
+        id: 'A',
+        type: 'linear',
+        position: 'left',
+ticks: {
+                beginAtZero: true
+            }
+      }, {
+        id: 'B',
+        type: 'linear',
+        position: 'right',
+ticks: {
+                beginAtZero: true
+            }
+        
+      }]
+        }
+    }
+});
+</script>
+
