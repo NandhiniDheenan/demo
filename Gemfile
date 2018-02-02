@@ -50,6 +50,13 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
 end
+
+group :development do
+gem 'capistrano', '~> 3.7', '>= 3.7.1'
+gem 'capistrano-rails', '~> 1.2'
+gem 'capistrano-passenger', '~> 0.2.0'
+end
+
 gem 'chartjs-ror'
 #gem "groupdate", github: "ankane/groupdate", branch: "debug_time_zone_support"
 gem 'composite_primary_keys'
