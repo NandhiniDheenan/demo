@@ -8,7 +8,7 @@ set :repo_url, "git@example.com:me/my_repo.git"
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
 # Default deploy_to directory is /var/www/testapp/demo
- set :deploy_to, "/var/www/html/demo"
+ set :deploy_to, "/var/www/html/code"
 
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
